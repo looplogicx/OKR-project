@@ -1,0 +1,14 @@
+<div class="auth-card">
+<h2>Register 💫</h2>
+<input [(ngModel)]="name" placeholder="Name" /><br />
+<input [(ngModel)]="email" placeholder="Email" /><br />
+<input [(ngModel)]="password" placeholder="Password" type="password" /><br />
+
+<select [(ngModel)]="role">
+  <option value="Admin">👑 Admin</option>
+  <option value="TeamLead">🧭 Team Lead</option>
+  <option value="Member">👥 Member</option>
+</select><br /><br />
+
+<button (click)="register()">Register</button>
+</div>

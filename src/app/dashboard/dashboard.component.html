@@ -1,0 +1,145 @@
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <h2>{{ org.name }}</h2>
+  <button 
+    (click)="logout()" 
+    style="padding: 6px 12px; background-color: #f44336; color: white; border: none; border-radius: 6px; cursor: pointer;">
+    🚪 Logout
+  </button>
+</div>
+
+
+<div class="login-info-banner">
+  {{ currentUser?.role === 'Admin' ? '👑' : '🙋‍♀️' }}
+  Logged in as: <strong>{{ currentUser?.role }}</strong> {{ currentUser?.name }}
+</div>
+<!--<button (click)="logout()">🚪 Logout</button>-->
+
+
+<!-- 🌈 USER FILTER DROPDOWN -->
+<select [(ngModel)]="selectedUserFilter">
+  <option [ngValue]="null">Show All</option>
+
+  <ng-container *ngFor="let dept of org.departments">
+    <option disabled>--- {{ dept.name }} ---</option>
+
+    <ng-container *ngFor="let team of dept.teams">
+      <option disabled>&nbsp;&nbsp;→ {{ team.name }}</option>
+
+      <ng-container *ngFor="let user of team.users">
+        <option [ngValue]="user.id">
+          &nbsp;&nbsp;&nbsp;&nbsp;👤 {{ user.name }}
+        </option>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</select>
+<select [(ngModel)]="sortByProgress">
+    <option [ngValue]="false">Unsorted</option>
+    <option [ngValue]="true">Sort by Progress 🔃</option>
+  </select>
+  <!-- 🔍 Search OKRs -->
+<input
+type="text"
+[(ngModel)]="searchText"
+placeholder="Search OKRs by title 🔎"
+style="margin: 10px 0; padding: 5px; width: 250px;"
+/>
+
+
+
+<div *ngFor="let dept of org.departments; let d = index">
+  <h3>Department: {{ dept.name }}</h3>
+  <h4>🔥 TOTAL TEAMS: {{ dept.teams.length }}</h4>
+<ng-container *ngFor="let team of dept.teams; let t = index">
+  <ng-container *ngIf="getFilteredOKRs(team) as filteredOKRs">
+    <div *ngIf="filteredOKRs.length > 0" class="team-container">
+    <!-- ✨ All your team-level content goes here -->
+
+    <h4>Team: {{ team.name }}</h4>
+    <p>📊 Team Progress: {{ getTeamProgress(d, t) }}%</p>
+
+
+    <!-- USERS -->
+    <ul>
+        <li *ngFor="let user of team.users; let userIndex = index">
+          👩‍💻 {{ user.name }} – {{ user.role }}
+          <button *ngIf="currentUser?.role === 'Admin'" (click)="removeMember(d, t, userIndex)">❌ Remove</button>
+        </li>
+      </ul>
+   
+  <!-- Add Member Form -->
+   <div *ngIf="currentUser?.role === 'Admin'">
+  <input
+    type="text"
+    [(ngModel)]="newMemberName[d + '-' + t]"
+    placeholder="New member name 👤"
+  />
+  
+  <select [(ngModel)]="newMemberRole[d + '-' + t]">
+    <option value="Member">👥 Member</option>
+    <option value="Admin">👑 Admin</option>
+  </select>
+  <!-- Only admins can see this -->
+ <button *ngIf="currentUser?.role === 'Admin'" (click)="addMember(d, t)">Add Member</button>
+   </div>
+
+    <!-- OKRs -->
+       <h5>OKRs:</h5>
+      <ul>
+        <li *ngFor="let okr of filteredOKRs; let okrIndex = index">
+          ✅ {{ okr.title }} – {{ okr.progress }}%
+          <p>📅 Due: {{ okr.dueDate || 'No deadline' }}</p>
+
+          <input type="number" [(ngModel)]="okr.progress" min="0" max="100"
+            (change)="updateProgress(d, t, okrIndex, okr.progress)" />
+
+          <select [(ngModel)]="okr.assignedTo" (change)="updateAssigned(d, t, okrIndex, okr.assignedTo)">
+            <option [ngValue]="null" disabled>👤 Assign to</option>
+            <option *ngFor="let user of team.users" [ngValue]="user.id">
+              {{ user.name }}
+            </option>
+          </select>
+
+          <p *ngIf="okr.assignedTo !== null">
+            📌 Assigned to: <b>{{ getUserNameById(d, t, okr.assignedTo) }}</b>
+          </p>
+
+          <button (click)="toggleDesc(d, t, okrIndex)">
+            {{ descOpen[d][t][okrIndex] ? 'Hide Details' : 'Show Details' }}
+          </button>
+
+          <div *ngIf="descOpen[d][t][okrIndex]" class="desc-panel">
+            <textarea [(ngModel)]="editDesc[d][t][okrIndex]" rows="3" placeholder="Enter description..."></textarea>
+            <button (click)="saveDesc(d, t, okrIndex)">💾 Save</button>
+          </div>
+
+          <button 
+  *ngIf="currentUser?.role === 'Admin'" 
+  (click)="deleteOKR(d, t, okrIndex)">
+  🗑️ Delete
+</button>
+
+
+        </li>
+      </ul>
+<!-- 🔕 No OKRs Message -->
+<p *ngIf="getFilteredOKRs(team).length === 0" style="color: gray; margin-left: 20px;">
+    😢 No OKRs found for this filter/search.
+  </p>
+  
+    <!-- Add new OKR -->
+    <input
+      type="text"
+      [(ngModel)]="newOKRData[d + '-' + t].title"
+      placeholder="New OKR title"
+    />
+    <input
+      type="date"
+      [(ngModel)]="newOKRData[d + '-' + t].dueDate"
+      placeholder="Due date"
+    />
+    <button (click)="addOKR(d, t)">Add OKR</button>
+  </div>
+  </ng-container>
+  </ng-container>
+</div>

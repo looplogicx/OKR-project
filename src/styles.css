@@ -1,1 +1,95 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* 🌍 GLOBAL APP STYLING */
+
+/* Background and fonts */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #f8f9fc, #e8f0ff);
+  color: #333;
+  margin: 0;
+  padding: 0 20px;
+}
+
+/* Headings */
+h2, h3, h4, h5 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+/* Inputs + Dropdowns */
+select, input[type="text"], input[type="date"], input[type="number"], textarea {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  margin: 5px 0;
+  font-size: 14px;
+  width: auto;
+  max-width: 300px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: border 0.3s;
+}
+select:focus, input:focus, textarea:focus {
+  border-color: #3f51b5;
+  outline: none;
+}
+
+/* Buttons */
+button {
+  background: #3f51b5;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 5px;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.2s;
+}
+button:hover {
+  background: #5c6bc0;
+  transform: scale(1.05);
+}
+button:active {
+  transform: scale(0.95);
+}
+
+/* Team/OKR Containers */
+div.team-container {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  transition: box-shadow 0.3s;
+}
+div.team-container:hover {
+  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+}
+
+/* Lists */
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+ul li {
+  background: #f4f6fa;
+  margin: 10px 0;
+  padding: 10px 14px;
+  border-left: 4px solid #3f51b5;
+  border-radius: 8px;
+}
+
+/* Description Panel */
+.desc-panel {
+  background: #e9f0ff;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+/* "No OKRs found" message */
+p[style*="gray"] {
+  font-style: italic;
+  color: #888 !important;
+}

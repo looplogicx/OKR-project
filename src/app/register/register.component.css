@@ -1,0 +1,62 @@
+/* 🌸 Center the entire component */
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to right, #e1f5fe, #fce4ec);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* 💖 The card style */
+.auth-card {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* 📝 Headings */
+.auth-card h2 {
+  color: #3f51b5;
+  margin-bottom: 25px;
+  font-size: 26px;
+}
+
+/* ✨ Inputs and selects */
+.auth-card input,
+.auth-card select {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 15px;
+  transition: border 0.3s ease;
+}
+.auth-card input:focus,
+.auth-card select:focus {
+  border-color: #3f51b5;
+  outline: none;
+}
+
+/* 🦋 Button */
+.auth-card button {
+  width: 100%;
+  background: #3f51b5;
+  color: white;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+}
+.auth-card button:hover {
+  background: #5c6bc0;
+}
